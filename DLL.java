@@ -109,6 +109,7 @@ public class DLL <E>{
         } else{
 
         tail = (new Node(element));
+        head = tail;
         counter++;
         }
 
@@ -118,7 +119,7 @@ public class DLL <E>{
      E removeFirst() {
         Node<E> temp = head;
         E tempElement = temp.getElement();
-        head = temp.getNext();
+        head = head.getNext();
         temp.setNext(null);
         temp.setElement(null);
         head.setPrev(null);
@@ -149,14 +150,12 @@ public class DLL <E>{
         if (counter > 1) {
             list += " <-- " + head.getElement();
             Node<E> temp = head;
-
-            for (int i = 1; i < counter; i++) {
-                head = head.getNext();
+            while(temp.getNext() != null){
+                temp = temp.getNext();
                 list += " <--> ";
-                list+= head.getElement();
+                list += temp.getElement();
         }
         list += " --> null";
-        head = temp;
     }
         return list;
      }
@@ -169,45 +168,48 @@ public class DLL <E>{
         Node<E> cloneHead = head;
         cloneList.head = new Node<E>(this.head.getElement());
         cloneList.counter++;
-
+    
         while(this.head.getNext() != null){
             this.head = this.head.getNext();
             cloneList.head.setNext(new Node<E>(this.head.getElement()));
             cloneList.head = cloneList.head.getNext();
             cloneList.counter++;
         }
-
+    
         cloneList.tail = head;
         cloneList.head = cloneHead;
         head = temp;
+        
         return cloneList;
     }
 
-     public DLL<E> deepClone() {
-              DLL<E> cloneList = new DLL<>();
-        Node<E> temp = head;
-        Node<E> cloneHead = head;
-        cloneList.head = new Node<E>(this.head.getElement());
-        cloneList.counter++;
+    
 
-        while(this.head.getNext() != null){
-            this.head = this.head.getNext();
-            cloneList.head.setNext(new Node<E>(this.head.getElement()));
-            cloneList.head = cloneList.head.getNext();
+     public DLL<E> deepClone() {
+        DLL<E> cloneList = new DLL<>();
+        cloneList.head = new Node(this.head.getElement());
+        cloneList.counter++;
+        Node<E> temp = cloneList.head;
+        Node<E> currentNode = this.head;
+        Node<E> previousNode = cloneList.head;
+
+        for(int i = 1; i < this.counter; i++){
+            currentNode = currentNode.getNext();
+            temp.setNext(new Node(currentNode.getElement()));
+            temp = temp.getNext();
+            temp.setPrev(previousNode);
+            previousNode = previousNode.getNext();
             cloneList.counter++;
         }
-
-        cloneList.tail = head;
-        cloneList.head = cloneHead;
-        head = temp;
+        
         return cloneList;
 
      }
-/*
+
      void insert() {
 
      }
-
+/*
      E get(int index) {
         E temp = 5;
         return temp;
@@ -256,19 +258,24 @@ public class DLL <E>{
         newList.addLast("Case");
         System.out.print(newList.head.getElement());
         System.out.println(newList.head.getNext().getElement());
-        System.out.println(newList.toString());
+        System.out.println("Original List  " + newList.toString());
         DLL clone = new DLL<>();
         clone = newList.clone();
-        System.out.println(clone.toString());
+        System.out.println("First Clone    " +clone.toString());
         newList.head.setElement("CHANGED");
-        System.out.println(clone.toString());
+        newList.removeFirst();
+        System.out.println("Original List  " + newList.toString());
+        System.out.println("First Clone    " + clone.toString());
 
+        /*
         DLL deepClonetemp = new DLL<>();
         deepClonetemp = newList.deepClone();
-        System.out.println(deepClonetemp.toString());
-        newList.head.setElement("CHANGED");
-        System.out.println(deepClonetemp.toString());
-        
+        System.out.println("DEEP Clone     " + deepClonetemp.toString());
+        newList.head.setElement("DEEPCHANGE");
+        System.out.println("Deep Clone     " + deepClonetemp.toString());
+        deepClonetemp.head.setElement("Deep Change");
+        System.out.println("Deep Clone     " + deepClonetemp.toString());
+ */      
 
 
 
