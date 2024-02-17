@@ -1,0 +1,19 @@
+Joshua Cherenfant 811136915
+
+
+
+If using Unix/ Odin
+Go into DataStructuresProject1 folder.
+
+Compile
+    javac -d bin .\src\DLL.java .\src\Driver.java
+
+Execute
+    java -cp bin Driver 
+
+    You can replace Driver with your own driver file. 
+
+
+
+If using VsCode instead of Unix executing files may send .class files to main directory instead of bin.
+to compileand executein vscode just open Driver.java and click play button.
